@@ -2,7 +2,13 @@ import { Navigate, Outlet } from "react-router-dom";
 
 function ProtectedRoute({ loggedIn }) {
   if (loggedIn) {
-    return <Outlet />;
+    return (
+      <>
+        <Header />
+        <Outlet />
+        <Footer />
+      </>
+    );
   }
   return <Navigate to={"/signin"} />;
 }

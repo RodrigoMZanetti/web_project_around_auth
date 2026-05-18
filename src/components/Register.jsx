@@ -1,3 +1,4 @@
+import "./Register.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -18,10 +19,21 @@ function Register({ handleRegister }) {
   }
 
   return (
-    <div>
-      <h1>Inscreva-se</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="auth">
+      <div className="auth__header">
+        <img
+          src="../../public/logo.svg"
+          alt="triplete logo"
+          className="auth__logo"
+        />
+        <Link to="/signin" className="auth__link">
+          Faça o Login
+        </Link>
+      </div>
+      <h1 className="auth__title">Inscreva-se</h1>
+      <form onSubmit={handleSubmit} className="auth__form">
         <input
+          className="auth__input "
           type="email"
           required
           name="email"
@@ -31,6 +43,7 @@ function Register({ handleRegister }) {
           value={email}
         />
         <input
+          className="auth__input "
           type="password"
           required
           name="password"
@@ -40,11 +53,13 @@ function Register({ handleRegister }) {
           value={password}
         />
 
-        <div>
-          <button type="submit">Inscreva-se</button>
-        </div>
+        <button className="auth__button" type="submit">
+          Inscreva-se
+        </button>
       </form>
-      <Link to="/signin">Já é um membro? Faça login aqui!</Link>
+      <Link to="/signin" className="auth__footer-link">
+        Já é um membro? Faça login aqui!
+      </Link>
     </div>
   );
 }

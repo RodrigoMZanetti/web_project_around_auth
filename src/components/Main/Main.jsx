@@ -66,6 +66,7 @@ function Main(props) {
           {popup.children}
         </Popup>
       )}
+      <Footer />
     </main>
   );
 }

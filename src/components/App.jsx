@@ -125,7 +125,7 @@ function App() {
     title: "New Avatar",
     children: <EditAvatar onUpdateAvatar={handleUpdateAvatar} />,
   };
-
+  ///////////////////////////////////////////////////////////////////
   useEffect(() => {
     async function fetchData() {
       const cards = await api.getInitialCards();
@@ -143,12 +143,18 @@ function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setLoggedIn(true);
+    }
+  }, []);
+
   return (
     <>
       <CurrentUserContext.Provider
         value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
       >
-        <Header />
         <Routes>
           <Route path="/signin" element={<Login handleLogIn={handleLogIn} />} />
           <Route
@@ -174,8 +180,6 @@ function App() {
             />
           </Route>
         </Routes>
-
-        <Footer />
       </CurrentUserContext.Provider>
     </>
   );
