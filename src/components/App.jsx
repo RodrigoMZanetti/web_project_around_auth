@@ -17,6 +17,7 @@ import EditAvatar from "./Popup/EditAvatar.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import { signinUser, signupUser } from "../auth/auth.js";
 
 import "../../blocks/cards.css";
 
@@ -91,8 +92,18 @@ function App() {
       console.error(error);
     }
   }
+  //////////////////////////////////////////////////////////////
+  function handleRegister({ email, password }) {
+    signupUser({ email, password })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-  function handleRegister() {}
+  function handleLogIn() {}
 
   const newCardPopup = {
     title: "New Card",
@@ -130,7 +141,7 @@ function App() {
       >
         <Header />
         <Routes>
-          <Route path="/signin" element={<Login />} />
+          <Route path="/signin" element={<Login handleLogIn={handleLogIn} />} />
           <Route
             path="/signup"
             element={<Register handleRegister={handleRegister} />}

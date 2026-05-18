@@ -1,5 +1,7 @@
-export function signupUser({ name, email, password }) {
-  return fetch("/signup", {
+const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1";
+
+export function signupUser({ email, password }) {
+  return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +21,7 @@ export function signupUser({ name, email, password }) {
 }
 
 export function signinUser({ email, password }) {
-  return fetch("/signin", {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
