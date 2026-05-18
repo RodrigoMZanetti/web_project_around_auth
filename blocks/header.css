@@ -3,7 +3,7 @@
   font-family: "Inter", Arial, sans-serif;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  border-bottom: 1px solid rgba(84, 84, 84, 0.349);
 }
 
 .header__logo {
