@@ -14,6 +14,10 @@ import NewCard from "./Popup/NewCard.jsx";
 import EditProfile from "./Popup/EditProfile.jsx";
 import EditAvatar from "./Popup/EditAvatar.jsx";
 
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+
 import "../../blocks/cards.css";
 
 function App() {
@@ -88,6 +92,8 @@ function App() {
     }
   }
 
+  function handleRegister() {}
+
   const newCardPopup = {
     title: "New Card",
     children: <NewCard handleAddPlaceSubmit={handleAddPlaceSubmit} />,
@@ -125,7 +131,10 @@ function App() {
         <Header />
         <Routes>
           <Route path="/signin" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
+          <Route
+            path="/signup"
+            element={<Register handleRegister={handleRegister} />}
+          />
           <Route path="/" element={<ProtectedRoute loggedIn={loggedIn} />}>
             <Route
               index

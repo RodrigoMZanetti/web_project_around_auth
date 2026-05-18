@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Register({ handleLogIn }) {
+function Register({ handleRegister }) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   function handlePassword(event) {
@@ -14,7 +14,7 @@ function Register({ handleLogIn }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    handleLogIn({ email, password });
+    handleRegister({ email, password });
   }
 
   return (
@@ -27,7 +27,7 @@ function Register({ handleLogIn }) {
           name="email"
           id="email"
           placeholder="E-mail"
-          onCanPlay={handleEmail}
+          onChange={handleEmail}
           value={email}
         />
         <input
