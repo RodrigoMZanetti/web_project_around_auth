@@ -4,7 +4,6 @@ import "../Popup/Popup.css";
 function Popup(props) {
   const { onClose, title, children } = props;
 
-  // ✅ Close on Escape key
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "Escape") onClose();

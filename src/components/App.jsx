@@ -103,7 +103,16 @@ function App() {
       });
   }
 
-  function handleLogIn() {}
+  function handleLogIn({ email, password }) {
+    signinUser({ email, password })
+      .then((result) => {
+        setLoggedIn(true);
+        localStorage.setItem("jwt", result.token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const newCardPopup = {
     title: "New Card",

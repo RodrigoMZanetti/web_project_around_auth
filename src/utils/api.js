@@ -5,9 +5,14 @@ class API {
   }
 
   _makeRequest(URL, method, body) {
+    const token = localStorage.getItem("jwt");
+
     return fetch(`${this._baseUrl}/${URL}`, {
       method: method,
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: body ? JSON.stringify(body) : undefined,
     }).then((res) => {
       if (!res.ok) {
