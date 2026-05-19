@@ -17,7 +17,7 @@ import EditAvatar from "./Popup/EditAvatar.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-import { signinUser, signupUser } from "../auth/auth.js";
+import { getUserToken, signinUser, signupUser } from "../auth/auth.js";
 
 import "../../blocks/cards.css";
 
@@ -145,8 +145,17 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
+
     if (token) {
-      setLoggedIn(true);
+      getUserToken({ token })
+        .then((result) => {
+          if (result) {
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, []);
 

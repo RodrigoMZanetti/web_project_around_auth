@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Login.css";
 
 function Login({ handleLogIn }) {
   const [password, setPassword] = useState("");
@@ -19,10 +20,21 @@ function Login({ handleLogIn }) {
   }
 
   return (
-    <div>
-      <h1>Entrar</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="login">
+      <div className="login__header">
+        <img
+          src="../../public/logo.svg"
+          alt="tripleten logo"
+          className="login__logo"
+        />
+        <Link to="/signup" className="login__link">
+          Entrar
+        </Link>
+      </div>
+      <h1 className="login__title">Entrar</h1>
+      <form onSubmit={handleSubmit} className="login__form">
         <input
+          className="login__input"
           type="email"
           name="email"
           id="email"
@@ -32,6 +44,7 @@ function Login({ handleLogIn }) {
           value={email}
         />
         <input
+          className="login__input"
           type="password"
           name="password"
           id="password"
@@ -41,10 +54,14 @@ function Login({ handleLogIn }) {
           required
         />
         <div>
-          <button type="submit">Entrar</button>
+          <button className="login__button" type="submit">
+            Entrar
+          </button>
         </div>
       </form>
-      <Link to="/signup">Ainda não é membro? Inscreva-se aqui!</Link>
+      <Link to="/signup" className="login__footer-link">
+        Ainda não é membro? Inscreva-se aqui!
+      </Link>
     </div>
   );
 }
