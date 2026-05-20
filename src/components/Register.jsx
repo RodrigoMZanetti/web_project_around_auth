@@ -23,7 +23,7 @@ function Register({ handleRegister }) {
       <div className="auth__header">
         <img
           src="../../public/logo.svg"
-          alt="triplete logo"
+          alt="tripleten logo"
           className="auth__logo"
         />
         <Link to="/signin" className="auth__link">
@@ -33,7 +33,7 @@ function Register({ handleRegister }) {
       <h1 className="auth__title">Inscreva-se</h1>
       <form onSubmit={handleSubmit} className="auth__form">
         <input
-          className="auth__input "
+          className="auth__input"
           type="email"
           required
           name="email"
@@ -43,7 +43,7 @@ function Register({ handleRegister }) {
           value={email}
         />
         <input
-          className="auth__input "
+          className="auth__input"
           type="password"
           required
           name="password"

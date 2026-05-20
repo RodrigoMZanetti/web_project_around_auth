@@ -93,7 +93,3 @@ input::-webkit-contacts-auto-fill-button {
   line-height: 100%;
   text-align: center;
 }
-
-.auth .header {
-  border-bottom: none;
-}

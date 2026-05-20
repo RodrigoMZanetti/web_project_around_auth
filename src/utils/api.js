@@ -9,10 +9,7 @@ class API {
 
     return fetch(`${this._baseUrl}/${URL}`, {
       method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: this._headers,
       body: body ? JSON.stringify(body) : undefined,
     }).then((res) => {
       if (!res.ok) {

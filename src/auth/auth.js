@@ -52,7 +52,7 @@ export function signinUser({ email, password }) {
     });
 }
 
-export function getUsers({ token }) {
+export function getUserToken({ token }) {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Header from "./Header.jsx";
 import Main from "./Main/Main.jsx";
@@ -27,6 +27,8 @@ function App() {
   const [popup, setPopup] = useState(null);
   ("popup state:", popup);
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const [isCheckingToken, setIsCheckingToken] = useState(true);
 
   async function handleCardLike(card) {
     const isLiked = card.isLiked;
@@ -97,6 +99,7 @@ function App() {
     signupUser({ email, password })
       .then((result) => {
         console.log(result);
+        navigate("/signin");
       })
       .catch((err) => {
         console.log(err);
@@ -106,14 +109,25 @@ function App() {
   function handleLogIn({ email, password }) {
     signinUser({ email, password })
       .then((result) => {
-        setLoggedIn(true);
-        localStorage.setItem("jwt", result.token);
+        if (result?.token) {
+          setLoggedIn(true);
+          localStorage.setItem("jwt", result.token);
+          localStorage.setItem("email", email);
+          navigate("/");
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  function handleLogout() {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    navigate("/singin");
+  }
+
+  ///////////////////////////////////////////////////////////////////////
   const newCardPopup = {
     title: "New Card",
     children: <NewCard handleAddPlaceSubmit={handleAddPlaceSubmit} />,
@@ -127,68 +141,88 @@ function App() {
   };
   ///////////////////////////////////////////////////////////////////
   useEffect(() => {
-    async function fetchData() {
-      const cards = await api.getInitialCards();
-
-      setCards(cards);
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      const currentUser = await api.getUserInfo();
-      setCurrentUser(currentUser);
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     const token = localStorage.getItem("jwt");
+    console.log("token encontrado:", token);
 
     if (token) {
       getUserToken({ token })
         .then((result) => {
           if (result) {
             setLoggedIn(true);
+            setIsCheckingToken(false);
           }
         })
         .catch((err) => {
           console.log(err);
+          setIsCheckingToken(false);
         });
     }
   }, []);
+
+  useEffect(() => {
+    if (!loggedIn) return;
+    async function fetchData() {
+      const cards = await api.getInitialCards();
+
+      setCards(cards);
+    }
+    fetchData();
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (!loggedIn) return;
+    async function fetchData() {
+      const currentUser = await api.getUserInfo();
+      setCurrentUser(currentUser);
+    }
+    fetchData();
+  }, [loggedIn]);
 
   return (
     <>
       <CurrentUserContext.Provider
         value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
       >
-        <Routes>
-          <Route path="/signin" element={<Login handleLogIn={handleLogIn} />} />
-          <Route
-            path="/signup"
-            element={<Register handleRegister={handleRegister} />}
-          />
-          <Route path="/" element={<ProtectedRoute loggedIn={loggedIn} />}>
+        {isCheckingToken ? (
+          <p>Loading...</p>
+        ) : (
+          <Routes>
             <Route
-              index
+              path="/signin"
+              element={<Login handleLogIn={handleLogIn} />}
+            />
+            <Route
+              path="/signup"
+              element={<Register handleRegister={handleRegister} />}
+            />
+            <Route
+              path="/"
               element={
-                <Main
-                  onOpenPopup={handleOpenPopup}
-                  onClosePopup={handleClosePopup}
-                  popup={popup}
-                  newProfilePopup={newProfilePopup}
-                  newCardPopup={newCardPopup}
-                  newAvatarPopup={newAvatarPopup}
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
+                <ProtectedRoute
+                  loggedIn={loggedIn}
+                  handleLogout={handleLogout}
                 />
               }
-            />
-          </Route>
-        </Routes>
+            >
+              <Route
+                index
+                element={
+                  <Main
+                    onOpenPopup={handleOpenPopup}
+                    onClosePopup={handleClosePopup}
+                    popup={popup}
+                    newProfilePopup={newProfilePopup}
+                    newCardPopup={newCardPopup}
+                    newAvatarPopup={newAvatarPopup}
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                  />
+                }
+              />
+            </Route>
+          </Routes>
+        )}
       </CurrentUserContext.Provider>
     </>
   );
