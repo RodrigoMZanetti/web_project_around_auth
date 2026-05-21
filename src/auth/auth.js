@@ -10,19 +10,15 @@ export function signupUser({ email, password }) {
       email,
       password,
     }),
-  })
-    .then((result) => {
-      if (!result.ok) {
-        return Promise.reject(
-          `400 - Um dos campos foi preenchido incorretamente`,
-        );
-      }
+  }).then((result) => {
+    if (!result.ok) {
+      return Promise.reject(
+        `400 - Um dos campos foi preenchido incorretamente`,
+      );
+    }
 
-      return result.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    return result.json();
+  });
 }
 
 export function signinUser({ email, password }) {
@@ -33,23 +29,19 @@ export function signinUser({ email, password }) {
       email: email,
       password: password,
     }),
-  })
-    .then((result) => {
-      if (result.status === 400) {
-        return Promise.reject(`um ou mais campos não foram fornecidos`);
-      }
+  }).then((result) => {
+    if (result.status === 400) {
+      return Promise.reject(`um ou mais campos não foram fornecidos`);
+    }
 
-      if (result.status === 401) {
-        return Promise.reject(
-          `o usuário com o e-mail especificado não encontrado`,
-        );
-      }
+    if (result.status === 401) {
+      return Promise.reject(
+        `o usuário com o e-mail especificado não encontrado`,
+      );
+    }
 
-      return result.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    return result.json();
+  });
 }
 
 export function getUserToken({ token }) {

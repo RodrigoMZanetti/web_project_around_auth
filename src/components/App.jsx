@@ -18,6 +18,7 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import { getUserToken, signinUser, signupUser } from "../auth/auth.js";
+import InfoTooltip from "./InfoTooltip.jsx";
 
 import "../../blocks/cards.css";
 
@@ -59,8 +60,17 @@ function App() {
   }
 
   function handleClosePopup() {
+    if (popup === "success") {
+      navigate("/");
+    }
+
+    if (popup === "goodbye") {
+      navigate("/signin");
+    }
+
     setPopup(null);
   }
+
   function handleOpenPopup(popup) {
     setPopup(popup);
   }
@@ -103,6 +113,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setPopup("error");
       });
   }
 
@@ -113,10 +124,11 @@ function App() {
           setLoggedIn(true);
           localStorage.setItem("jwt", result.token);
           localStorage.setItem("email", email);
-          navigate("/");
+          setPopup("success");
         }
       })
       .catch((err) => {
+        setPopup("error");
         console.log(err);
       });
   }
@@ -124,7 +136,7 @@ function App() {
   function handleLogout() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
-    navigate("/singin");
+    setPopup("goodbye");
   }
 
   ///////////////////////////////////////////////////////////////////////
@@ -142,21 +154,10 @@ function App() {
   ///////////////////////////////////////////////////////////////////
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    console.log("token encontrado:", token);
-
     if (token) {
-      getUserToken({ token })
-        .then((result) => {
-          if (result) {
-            setLoggedIn(true);
-            setIsCheckingToken(false);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          setIsCheckingToken(false);
-        });
+      setLoggedIn(true);
     }
+    setIsCheckingToken(false);
   }, []);
 
   useEffect(() => {
@@ -186,42 +187,47 @@ function App() {
         {isCheckingToken ? (
           <p>Loading...</p>
         ) : (
-          <Routes>
-            <Route
-              path="/signin"
-              element={<Login handleLogIn={handleLogIn} />}
-            />
-            <Route
-              path="/signup"
-              element={<Register handleRegister={handleRegister} />}
-            />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute
-                  loggedIn={loggedIn}
-                  handleLogout={handleLogout}
-                />
-              }
-            >
+          <>
+            <Routes>
               <Route
-                index
+                path="/signin"
+                element={<Login handleLogIn={handleLogIn} />}
+              />
+              <Route
+                path="/signup"
+                element={<Register handleRegister={handleRegister} />}
+              />
+              <Route
+                path="/"
                 element={
-                  <Main
-                    onOpenPopup={handleOpenPopup}
-                    onClosePopup={handleClosePopup}
-                    popup={popup}
-                    newProfilePopup={newProfilePopup}
-                    newCardPopup={newCardPopup}
-                    newAvatarPopup={newAvatarPopup}
-                    cards={cards}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
+                  <ProtectedRoute
+                    loggedIn={loggedIn}
+                    handleLogout={handleLogout}
                   />
                 }
-              />
-            </Route>
-          </Routes>
+              >
+                <Route
+                  index
+                  element={
+                    <Main
+                      onOpenPopup={handleOpenPopup}
+                      onClosePopup={handleClosePopup}
+                      popup={popup}
+                      newProfilePopup={newProfilePopup}
+                      newCardPopup={newCardPopup}
+                      newAvatarPopup={newAvatarPopup}
+                      cards={cards}
+                      onCardLike={handleCardLike}
+                      onCardDelete={handleCardDelete}
+                    />
+                  }
+                />
+              </Route>
+            </Routes>
+            {popup && (
+              <InfoTooltip isSuccess={popup} onClose={handleClosePopup} />
+            )}
+          </>
         )}
       </CurrentUserContext.Provider>
     </>
