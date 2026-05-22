@@ -4,7 +4,7 @@ html {
   padding: 0;
 }
 
-.auth {
+.login {
   background-color: #000000;
   width: 100%;
   min-height: 100vh;
@@ -14,23 +14,22 @@ html {
   align-items: center;
 }
 
-.auth__header {
+.login__header {
   width: 100%;
-  padding: 0 200px;
+  padding: 20px 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 45px 400px;
   box-sizing: border-box;
   border-bottom: 1px solid #545454;
 }
 
-.auth__logo {
+.login__logo {
   width: 173px;
   height: 33px;
 }
 
-.auth__title {
+.login__title {
   padding-top: 100px;
   color: #ffffff;
   font-family: "Inter", sans-serif;
@@ -40,7 +39,23 @@ html {
   text-align: center;
 }
 
-.auth__input {
+.login__link {
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.login__input {
   width: 358px;
   height: 27px;
   color: #cccccc;
@@ -55,7 +70,7 @@ input::-webkit-contacts-auto-fill-button {
   visibility: hidden;
 }
 
-.auth__button {
+.login__button {
   width: 358px;
   height: 50px;
   background-color: #ffffff;
@@ -68,23 +83,7 @@ input::-webkit-contacts-auto-fill-button {
   margin-bottom: 30px;
 }
 
-.auth__form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-}
-
-.auth__link {
-  color: #ffffff;
-  text-decoration: none;
-  font-family: "Inter", sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 22px;
-}
-
-.auth__footer-link {
+.login__footer-link {
   color: #ffffff;
   text-decoration: none;
   font-family: "Inter", sans-serif;

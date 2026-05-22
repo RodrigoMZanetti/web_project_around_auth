@@ -1,6 +1,7 @@
-import "./Register.css";
+import "../../blocks/Register.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../images/logo.svg";
 
 function Register({ handleRegister }) {
   const [password, setPassword] = useState("");
@@ -21,11 +22,7 @@ function Register({ handleRegister }) {
   return (
     <div className="auth">
       <div className="auth__header">
-        <img
-          src="../../public/logo.svg"
-          alt="tripleten logo"
-          className="auth__logo"
-        />
+        <img src={logo} alt="Around The U.S." className="auth__logo" />
         <Link to="/signin" className="auth__link">
           Faça o Login
         </Link>

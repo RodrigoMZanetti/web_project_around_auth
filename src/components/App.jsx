@@ -30,6 +30,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [isCheckingToken, setIsCheckingToken] = useState(true);
+  const [tooltipType, setTooltipType] = useState(null);
 
   async function handleCardLike(card) {
     const isLiked = card.isLiked;
@@ -59,15 +60,17 @@ function App() {
     }
   }
 
-  function handleClosePopup() {
-    if (popup === "success") {
+  function handleCloseTooltip() {
+    if (tooltipType === "success") {
       navigate("/");
     }
-
-    if (popup === "goodbye") {
+    if (tooltipType === "goodbye") {
       navigate("/signin");
     }
+    setTooltipType(null);
+  }
 
+  function handleClosePopup() {
     setPopup(null);
   }
 
@@ -113,7 +116,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        setPopup("error");
+        setTooltipType("error");
       });
   }
 
@@ -124,11 +127,11 @@ function App() {
           setLoggedIn(true);
           localStorage.setItem("jwt", result.token);
           localStorage.setItem("email", email);
-          setPopup("success");
+          setTooltipType("success");
         }
       })
       .catch((err) => {
-        setPopup("error");
+        setTooltipType("error");
         console.log(err);
       });
   }
@@ -136,7 +139,7 @@ function App() {
   function handleLogout() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
-    setPopup("goodbye");
+    setTooltipType("goodbye");
   }
 
   ///////////////////////////////////////////////////////////////////////
@@ -152,12 +155,26 @@ function App() {
     children: <EditAvatar onUpdateAvatar={handleUpdateAvatar} />,
   };
   ///////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      setLoggedIn(true);
+      getUserToken({ token })
+        .then((result) => {
+          if (result) {
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          localStorage.removeItem("jwt");
+        })
+        .finally(() => {
+          setIsCheckingToken(false);
+        });
+    } else {
+      setIsCheckingToken(false);
     }
-    setIsCheckingToken(false);
   }, []);
 
   useEffect(() => {
@@ -224,8 +241,11 @@ function App() {
                 />
               </Route>
             </Routes>
-            {popup && (
-              <InfoTooltip isSuccess={popup} onClose={handleClosePopup} />
+            {tooltipType && (
+              <InfoTooltip
+                isSuccess={tooltipType}
+                onClose={handleCloseTooltip}
+              />
             )}
           </>
         )}

@@ -1,5 +1,5 @@
 import Popup from "./Popup/Popup.jsx";
-import "./InfoTooltip.css";
+import "../../blocks/InfoTooltip.css";
 
 function InfoTooltip({ isSuccess, onClose }) {
   return (

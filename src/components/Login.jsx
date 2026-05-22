@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Login.css";
+import "../../blocks/Login.css";
+import logo from "../images/logo.svg";
 
 function Login({ handleLogIn }) {
   const [password, setPassword] = useState("");
@@ -22,11 +23,7 @@ function Login({ handleLogIn }) {
   return (
     <div className="login">
       <div className="login__header">
-        <img
-          src="../../public/logo.svg"
-          alt="tripleten logo"
-          className="login__logo"
-        />
+        <img src={logo} alt="Around The U.S." className="login__logo" />
         <Link to="/signup" className="login__link">
           Entrar
         </Link>
