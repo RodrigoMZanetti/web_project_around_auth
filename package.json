@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "deploy": "npm run build && gh-pages -d dist",
+    "deploy": "npm run build && scp -r -i C:\\Users\\Rodrigo\\.ssh\\id_ed25519 ./dist/* rodrigomaturanozanetti@35.197.84.187:/home/rodrigomaturanozanetti/around-frontend",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
